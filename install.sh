@@ -4,15 +4,15 @@ set -euo pipefail
 repo=https://github.com/d1ll3x/dotfiles.git
 dir=$HOME/projects/github.com/d1ll3x/dotfiles
 
-if ! command -v curl >/dev/null; then
+if ! command -v git >/dev/null; then
   if command -v pacman >/dev/null; then
-    sudo pacman -Syu --needed --noconfirm curl
+    sudo pacman -Syu --needed --noconfirm git
   elif command -v apt-get >/dev/null; then
-    sudo apt-get update && sudo apt-get install -y curl
+    sudo apt-get update && sudo apt-get install -y git
   elif command -v dnf >/dev/null; then
-    sudo dnf install -y curl
+    sudo dnf install -y git
   else
-    echo "No pacman, apt-get or dnf found: install curl yourself" >&2
+    echo "No pacman, apt-get or dnf found: install git yourself" >&2
     exit 1
   fi
 fi

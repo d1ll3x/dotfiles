@@ -1,6 +1,6 @@
 # 🏠 dotfiles
  
-My dotfiles, deployed with [mise bootstrap](https://mise.jdx.dev/bootstrap/) and [mise dotfiles](https://mise.jdx.dev/dotfiles/).
+My dotfiles, deployed with [mise](https://mise.jdx.dev).
 Works on Arch, Debian, Fedora and WSL2.
  
 > ⚠️ These are personal dotfiles: read `mise/` before running anything. Bootstrap installs
