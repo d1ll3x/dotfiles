@@ -1,4 +1,36 @@
-# Files in ~/.dotfiles/home are linked into ~ (mise's default for a group named "home").
+# Machine setup, applied by `mise bootstrap` (see bootstrap.sh for the first run).
+[bootstrap.packages]
+zsh = "latest"
+git = "latest"
+openssh = { names = { apt = "openssh-client", dnf = "openssh-clients" } }
+
+[bootstrap.user]
+# Not "zsh": that resolves to /usr/sbin/zsh on Fedora; /bin/zsh is in /etc/shells on every distro.
+login_shell = "/bin/zsh"
+
+# Creates the commit signing key, before the dotfiles that refer to it.
+[bootstrap.hooks.post-packages]
+description = "Create the commit signing key if missing"
+run = '''
+key={{ vars.git_signingkey | replace(from=".pub", to="") }}
+if [ ! -f "$key" ]; then
+  mkdir -p -m 700 "$(dirname "$key")"
+  echo "Key for signing commits on this machine; choose a passphrase:"
+  ssh-keygen -t ed25519 -f "$key" -C "$USER@$(uname -n)"
+fi
+'''
+
+[bootstrap.hooks.final]
+description = "Trust the signing key, build the zsh plugin bundle"
+run = [
+  # Templates render before the key exists on a new machine; render allowed_signers again.
+  "mise dot apply ~/.config/git/allowed_signers",
+  # git config rewrites https://github.com to SSH, which fails until the key is on GitHub.
+  "GIT_CONFIG_GLOBAL=/dev/null zsh -i -c true",
+  "echo 'Add this signing key to GitHub if you have not yet:' && cat {{ vars.git_signingkey }}",
+]
+
+# Files in home/ of the dotfiles checkout are linked into ~ (mise's default for a group named "home").
 [dotfile_groups.home]
 exclude = [".config/mise", "__pycache__", ".ruff_cache"]
 
@@ -23,6 +55,8 @@ default = "~/.ssh/id_ed25519.pub"
 prompt = "Public key used to sign commits on this machine"
 
 [settings]
+# The checkout's location under ghq's root (ghq.root in git/config); bootstrap.sh clones it here.
+dotfiles.root = "~/projects/github.com/d1ll3x/dotfiles"
 trusted_config_paths = ["~/repos"]
 minimum_release_age_excludes = ["claude"]
 
