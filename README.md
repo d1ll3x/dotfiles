@@ -1,40 +1,99 @@
 # 🏠 dotfiles
+ 
+My dotfiles, deployed with [mise bootstrap](https://mise.jdx.dev/bootstrap/) and [mise dotfiles](https://mise.jdx.dev/dotfiles/).
+Works on Arch, Debian, Fedora and WSL2.
+ 
+> ⚠️ These are personal dotfiles: read `mise/` before running anything. Bootstrap installs
+> packages with `sudo` and changes your login shell to zsh.
+ 
 
-My dotfiles, deployed with [mise](https://mise.jdx.dev/dotfiles/).
+## 🧩 How it works
+ 
+- **mise config files.** `config.toml` holds only settings and tools. `bootstrap.toml` and `dotfiles.toml` live in `mise/conf.d/`, which mise loads automatically in alphabetical order.
+- **Bootstrap hooks** (`conf.d/bootstrap.toml`):
+  - `pre-dotfiles` → `scripts/ssh-setup.sh`: links `~/.ssh` to Windows on WSL and creates a signing key
+    if missing. It runs before the dotfiles step, which edits `~/.ssh/config`.
+  - `post-dotfiles` → `scripts/git-identity.sh`: writes the untracked git identity once.
+  - `final` → `zsh -i -c true`: the first interactive start clones antidote and builds the zsh plugin bundle.
+- **Shell activation** of mise belongs in the tracked zsh config (`zsh/.zshrc`, e.g.
+  `eval "$(mise activate zsh)"` with `~/.local/bin` on `PATH`).
 
-- `home/` mirrors `~`: every file in it is linked to the same path in your home directory.
-- `home/.config/mise/config.toml` declares the rest: the per-machine git identity, the shared `~/.ssh/config` block, `~/.zshenv` and the tools.
-- `bootstrap.sh` sets up a new machine (Arch, Debian/Ubuntu, Fedora; WSL too).
-
-## 🚀 New machine
-
-> ⚠️ These are my personal dotfiles. Read `bootstrap.sh` before running it: it installs packages with `sudo` and changes your login shell to zsh.
-
-Needs `git`. Clone anywhere, then run the script from the clone:
-
-```sh
-git clone https://github.com/d1ll3x/dotfiles.git
-dotfiles/bootstrap.sh
+## 🚀 Instructions: set up a new machine
+ 
+### 1. WSL only: share `~/.ssh` with Windows
+ 
+`~/.ssh` is linked to Windows' `%USERPROFILE%\.ssh`, and ssh only accepts those keys when `/mnt/c`
+keeps Linux permissions. Add this to `/etc/wsl.conf`, then run `wsl.exe --shutdown` from Windows and
+reopen WSL:
+ 
+```ini
+[automount]
+options = "metadata,umask=22,fmask=11"
 ```
-
-`~/.dotfiles` becomes a link to your clone, unless you cloned straight to `~/.dotfiles`.
-
-It installs the packages and mise, creates a signing key, links everything into place, asks for your git name and email, and switches your shell to zsh. Existing files are never overwritten: mise lists them as conflicts instead.
-
-## 🔧 Day to day
-
-Your files are links into the repo, so just edit them where they are. Then save the change:
-
+ 
+### 2. Run the installer
+ 
 ```sh
-cd ~/.dotfiles
-git add -A && git commit -m "what changed" && git push
+bash <(curl -fsSL https://raw.githubusercontent.com/d1ll3x/dotfiles/main/install.sh)
 ```
+ 
+No curl yet (some minimal Debian installs)? Use `wget -qO-` instead of `curl -fsSL`.
+ 
+[`install.sh`](install.sh):
+ 
+1. installs `git` if missing (pacman, apt or dnf);
+2. installs mise with `curl -fsSL https://mise.run | sh` and puts `~/.local/bin` on `PATH`;
+3. asks whether this is a **personal** or **work** machine
+4. runs `mise bootstrap`, which clones this repo to `~/projects/github.com/d1ll3x/dotfiles` (ghq layout)
+   and links `~/.config/mise` to its `mise/` folder. The profile is saved, so later runs need no `-E`.
+Bootstrap then:
+ 
+1. installs zsh, git, openssh and curl with the distro's package manager;
+2. prepares `~/.ssh` (linked to Windows on WSL) and creates a signing key if none exists;
+3. links every app into place. Existing files are never overwritten: mise lists them as conflicts;
+4. asks once for your git name and email (stored outside the repo, see [Personal data](#-personal-data));
+5. switches your login shell to zsh and installs the tools.
+If no terminal was available for the git questions, run `bash ~/.config/mise/scripts/git-identity.sh`.
+ 
+### 3. Wrapping-up
+ 
+1. Add the public key that bootstrap printed (`~/.ssh/id_ed25519.pub`) to GitHub, as both an
+   authentication and a signing key. The repo is pulled over SSH from then on.
+2. Open a new terminal: your login shell is now zsh.
 
-**Add a new file:** move it into `home/` at the same path (`~/.config/foo` → `home/.config/foo`), then run `mise dot apply`.
-
-**Update another machine:**
-
-```sh
-cd ~/.dotfiles
-git pull && mise dot apply
+## 📁 Layout
+ 
+```text
+~/projects/github.com/d1ll3x/dotfiles   # ghq layout
+├── install.sh                #   new machine: curl + mise + bootstrap
+├── mise/                     #   global mise config, linked as ~/.config/mise
+│   ├── config.toml           #   every machine: settings + tools
+│   ├── conf.d/
+│   │   ├── bootstrap.toml    #   host packages, login shell, hooks
+│   │   └── dotfiles.toml     #   app groups + edits to ~/.ssh/config and ~/.zshenv
+│   ├── config.personal.toml  #   personal tools (e.g. claude)
+│   ├── config.work.toml      #   work tools (e.g. GitHub Copilot CLI)
+│   └── scripts/              #   bootstrap hooks
+├── agents/                   # -> ~/.agents
+├── gh/                       # -> ~/.config/gh
+├── git/                      # -> ~/.config/git
+├── herdr/                    # -> ~/.config/herdr
+├── lazygit/                  # -> ~/.config/lazygit
+├── nvim/                     # -> ~/.config/nvim
+└── zsh/                      # -> ~/.config/zsh
 ```
+ 
+Each app folder holds the app's files flat. mise links them, file by file, into the app's target.
+ 
+## 🔧 FAQ
+ 
+| Task | Command |
+|---|---|
+| Add a file to an existing app | `mise dot add --group nvim ~/.config/nvim/lua/plugins/foo.lua` |
+| Add a new app | `mkdir <repo>/foo`, add `foo = { target = "~/.config/foo" }` to `mise/conf.d/dotfiles.toml`, then `mise dot add --group foo ~/.config/foo/config` |
+| Add a tool for every machine | `mise use -g <tool>` (writes to `mise/config.toml`) |
+| Add a profile-only tool | add it to `mise/config.<profile>.toml` |
+| Update this machine | `mise bootstrap --update` |
+| See what's out of sync | `mise dot status` |
+ 
+
