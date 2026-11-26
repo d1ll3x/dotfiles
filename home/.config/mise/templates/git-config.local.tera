@@ -1,0 +1,9 @@
+{% if vars.git_email %}# ~/.config/git/config.local
+# Machine-specific git identity, included from ./config. Not tracked.
+# Generated once by mise from the git_* vars; edit freely, mise won't overwrite it.
+
+[user]
+  name = {{ vars.git_name }}
+  email = {{ vars.git_email }}
+  signingkey = {{ vars.git_signingkey | replace(from="~", to=env.HOME) }}
+{% endif %}

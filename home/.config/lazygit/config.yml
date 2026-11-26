@@ -1,0 +1,39 @@
+gui:
+  theme:
+    activeBorderColor:
+      - "#7E9CD8" # crystalBlue
+      - bold
+
+    inactiveBorderColor:
+      - "#727169" # sumiInk6
+
+    searchingActiveBorderColor:
+      - "#FF9E3B" # roninYellow
+      - bold
+
+    optionsTextColor:
+      - "#7AA89F" # waveAqua2
+
+    selectedLineBgColor:
+      - "#2A2A37" # sumiInk3
+
+    inactiveViewSelectedLineBgColor:
+      - "#223249" # waveBlue2
+
+    cherryPickedCommitFgColor:
+      - "#DCD7BA" # fujiWhite
+
+    cherryPickedCommitBgColor:
+      - "#C34043" # autumnRed
+
+    markedBaseCommitFgColor:
+      - "#7AA89F" # waveAqua2
+
+    markedBaseCommitBgColor:
+      - "#FF9E3B" # roninYellow
+
+    unstagedChangesColor:
+      - "#E46876" # springRed
+
+    defaultFgColor:
+      - "#DCD7BA" # fujiWhite

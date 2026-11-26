@@ -1,0 +1,23 @@
+# ~/.config/zsh/.zsh_plugins.txt
+# Antidote plugin file
+#
+# Setting kind:defer will lazy load the plugin
+# Be carefull, only specific plugins support this setting
+
+# Completions - do not re-order
+mattmc3/zephyr path:plugins/completion                      # Default compstyle: zephyr
+zsh-users/zsh-completions kind:fpath path:src               # Extra tab completions
+aloxaf/fzf-tab                                              # Fzf completion select menu
+
+# Keybindings
+mattmc3/zephyr path:plugins/editor                          # Simple QoL keybindings
+
+# History
+mattmc3/zephyr path:plugins/history                         # Sensible history options
+
+# Fish-like features
+mattmc3/zephyr path:plugins/color                           # Make the terminal more colorful
+mattmc3/zephyr path:plugins/confd                           # Automatically loads .zsh files at ./conf.d
+zdharma-continuum/fast-syntax-highlighting kind:defer       # Syntax highlighting
+zsh-users/zsh-autosuggestions kind:defer                    # Auto-suggestions
+zsh-users/zsh-history-substring-search                      # Up/down to search through history

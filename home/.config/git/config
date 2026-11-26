@@ -1,0 +1,67 @@
+# ~/.config/git/config
+# Config is based on https://blog.gitbutler.com/how-git-core-devs-configure-git#tldr
+# Added SSH signing options based on: https://bitwarden.com/help/ssh-agent/#configure-git-for-ssh-signing
+
+# Config
+[gpg]
+  format = ssh
+[column]
+  ui = auto
+[branch]
+  sort = -committerdate
+[tag]
+  sort = version:refname
+[init]
+  defaultBranch = main
+[diff]
+  algorithm = histogram
+  colorMoved = plain
+  mnemonicPrefix = true
+  renames = true
+[push]
+  default = simple
+  autoSetupRemote = true
+  followTags = true
+[fetch]
+  prune = true
+  pruneTags = true
+  all = true
+[help]
+  autocorrect = prompt
+[commit]
+  gpgsign = true
+  verbose = true
+[rerere]
+  enabled = true
+  autoupdate = true
+[core]
+  editor = nvim
+  autocrlf = input
+[rebase]
+  autoSquash = true
+  autoStash = true
+  updateRefs = true
+[pull]
+  rebase = true
+[merge]
+  conflictstyle = zdiff3
+
+# url shortcuts
+[url "git@github.com:"]
+  insteadOf = "gh:"
+
+[url "git@gitlab.com:"]
+  insteadOf = "gl:"
+
+[credential "https://github.com"]
+	helper = 
+	helper = !~/.local/share/mise/shims/gh auth git-credential
+[credential "https://gist.github.com"]
+	helper = 
+	helper = !~/.local/share/mise/shims/gh auth git-credential
+[gpg "ssh"]
+	allowedSignersFile = ~/.config/git/allowed_signers
+
+# Machine-specific identity (untracked)
+[include]
+  path = config.local

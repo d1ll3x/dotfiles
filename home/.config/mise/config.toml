@@ -1,0 +1,49 @@
+# Files in ~/.dotfiles/home are linked into ~ (mise's default for a group named "home").
+[dotfile_groups.home]
+exclude = [".config/mise", "__pycache__", ".ruff_cache"]
+
+[dotfiles]
+"~/.config/git/allowed_signers" = { source = "templates/allowed_signers.tera", mode = "template", create_if_missing = true, remove_empty = true }
+"~/.config/git/config.local" = { source = "templates/git-config.local.tera", mode = "template", create_if_missing = true, remove_empty = true }
+"~/.ssh/config/shared" = { block = "Host *\n  SetEnv TERM=xterm-256color\n" }
+"~/.zshenv" = { content = "export ZDOTDIR=\"$HOME/.config/zsh\"\n" }
+
+# Per-machine values, asked once by `mise bootstrap --prompt-vars` (or `mise vars prompt`).
+# Answers live in ~/.local/state/mise/vars.toml, never in this repo.
+[vars.git_name]
+default = ""
+prompt = "Git author name for this machine"
+
+[vars.git_email]
+default = ""
+prompt = "Git email for this machine"
+
+[vars.git_signingkey]
+default = "~/.ssh/id_ed25519.pub"
+prompt = "Public key used to sign commits on this machine"
+
+[settings]
+trusted_config_paths = ["~/repos"]
+minimum_release_age_excludes = ["claude"]
+
+[tools]
+# CLI Tools
+bat = "latest"
+btop = "latest"
+zoxide = "latest"
+fd = "latest"
+fzf = "latest"
+ripgrep = "latest"
+eza = "latest"
+starship = "latest"
+jq = "latest"
+lazygit = "latest"
+github-cli = "latest"
+neovim ="stable"
+
+# AI Tools
+herdr = "latest"
+claude = "latest"
+
+# Runtime
+node = "26.13.0" # LTS - required by neovim

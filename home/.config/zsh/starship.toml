@@ -1,0 +1,69 @@
+"$schema" = 'https://starship.rs/config-schema.json'
+
+format = """
+[╭](fg:muted)🌊 $username\
+$directory\
+$git_branch\
+$git_status\
+$kubernetes\
+$docker_context\
+$time\
+\n$character"""
+
+palette           = "kanagawa_wave"
+
+[palettes.kanagawa_wave]
+fg                = "#DCD7BA"
+bg                = "#1F1F28"
+muted             = "#727169"
+
+blue              = "#7E9CD8"
+cyan              = "#7FB4CA"
+green             = "#98BB6C"
+yellow            = "#E6C384"
+orange            = "#FFA066"
+red               = "#E46876"
+purple            = "#957FB8"
+aqua              = "#7AA89F"
+
+[username]
+show_always       = false
+style_user        = "fg:yellow bold"
+style_root        = "fg:red bold"
+format            = '[$user]($style) '
+
+[character]
+format            = """
+[╰─$symbol](fg:muted) """
+success_symbol    = "[](fg:green bold)"
+error_symbol      = "[](fg:red bold)"
+
+[directory]
+style             = "fg:blue bold"
+format            = '([$path]($style)) '
+truncation_length = 3
+truncation_symbol = "…/"
+
+[directory.substitutions]
+"Documents"       = "󰈙 "
+"Downloads"       = " "
+"Music"           = " "
+"Pictures"        = " "
+
+[git_branch]
+style             = "fg:purple"
+symbol            = ""
+format            = '(| [$symbol]($style) $branch) '
+
+[git_status]
+style             = "fg:orange"
+format            = '([$all_status]($style)) '
+
+[kubernetes]
+style             = "fg:yellow bold"
+format            = ' (| [$context]($style)( in [$namespace](fg:cyan))) '
+
+[time]
+disabled          = false
+time_format       = "%R"
+format            = '[| $time](fg:aqua)'

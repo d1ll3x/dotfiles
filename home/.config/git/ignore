@@ -1,0 +1,39 @@
+# ~/.config/git/ignore
+# File is automatically used by git at this path
+
+# Tools
+/.direnv/
+/venv/
+/.envrc
+
+# MacOS
+.DS_Store
+
+# Windows
+Thumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# IDEs
+/.vs/
+/.vscode/
+.nvimrc
+.nvim.lua
+*.swp
+*.swo
+*~
+.sublime-workspace
+
+# Logs
+log/
+*.log
+
+# Env files
+.env
+
+# Backup files
+*.bak
+*.backup
+*.old
+
+**/.claude/settings.local.json

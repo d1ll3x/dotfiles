@@ -1,0 +1,5 @@
+# Follow `source hooklib.sh` from the hook scripts
+external-sources=true
+source-path=SCRIPTDIR
+# jq programs and regexes are single-quoted on purpose
+disable=SC2016

@@ -1,0 +1,12 @@
+onboarding = false
+
+[ui.toast]
+delivery = "system"
+
+[ui]
+status_indicators = "symbols"
+sidebar_start_collapsed = true
+
+[theme]
+name = "kanagawa"
+auto_switch = false

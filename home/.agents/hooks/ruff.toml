@@ -1,0 +1,13 @@
+target-version = "py314"
+line-length = 100
+
+[lint]
+select = ["E", "F", "W", "I", "UP", "B", "SIM", "RUF", "PTH", "PL"]
+ignore = [
+  "PLR0911", # hooks route many early returns
+  "PLR0912",
+  "PLR2004", # thresholds are named where they matter
+  "RUF001",  # emoji / box-drawing output is intentional
+  "SIM905",  # whitespace word lists read better than 100-line literals
+  "E501",    # ruff format wraps code; aligned pattern tables stay one rule per line
+]
