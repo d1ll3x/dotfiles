@@ -1,0 +1,14 @@
+# Dotfiles deployed through mise bootstrap or `mise dot apply`
+
+[dotfile_groups]
+agents = { target = "~/.agents", exclude = ["__pycache__", ".ruff_cache"] }
+gh = { target = "~/.config/gh" }
+git = { target = "~/.config/git" }
+herdr = { target = "~/.config/herdr" }
+lazygit = { target = "~/.config/lazygit" }
+nvim = { target = "~/.config/nvim" }
+zsh = { target = "~/.config/zsh" }
+
+[dotfiles]
+"~/.ssh/config/shared" = { block = "Host *\n  SetEnv TERM=xterm-256color\n" }
+"~/.zshenv" = { content = "export ZDOTDIR=\"$HOME/.config/zsh\"\n" }

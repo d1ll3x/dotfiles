@@ -1,0 +1,18 @@
+# Machine setup run by `mise bootstrap`: host packages, login shell, hooks.
+
+[bootstrap.packages]
+zsh = "latest"
+git = "latest"
+curl = "latest"
+openssh = { names = { apt = "openssh-client", dnf = "openssh-clients" } }
+
+[bootstrap.user]
+login_shell = "zsh"
+
+[bootstrap.hooks]
+# WSL: link ~/.ssh/ to Windows %userprofile/.ssh/
+pre-dotfiles = "bash ~/.config/mise/scripts/ssh-setup.sh"
+# Asks for git name/email once and write them locally.
+post-dotfiles = "bash ~/.config/mise/scripts/git-identity.sh"
+# First interactive start clones antidote and builds the plugin bundle.
+final = "zsh -i -c true"

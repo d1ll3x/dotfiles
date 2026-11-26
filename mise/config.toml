@@ -1,0 +1,27 @@
+# Global mise config: ~/.config/mise is a link to this folder.
+[settings]
+self_update.auto = true
+# dotfiles lives where ghq would place it
+dotfiles.root = "{{ env.HOME }}/projects/github.com/d1ll3x/dotfiles"
+
+[tools]
+# CLI Tools
+bat = "latest"
+btop = "latest"
+zoxide = "latest"
+fd = "latest"
+fzf = "latest"
+ripgrep = "latest"
+eza = "latest"
+starship = "latest"
+jq = "latest"
+lazygit = "latest"
+neovim = "stable"
+github-cli = "latest"
+ghq = "latest"
+
+# AI Tools
+herdr = "latest"
+
+# Runtime
+node = "26.13.0" # LTS - required by neovim

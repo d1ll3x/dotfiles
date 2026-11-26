@@ -1,4 +1,0 @@
-{% set key = exec(command="cat " ~ vars.git_signingkey ~ " 2>/dev/null || true") | trim %}{% if vars.git_email and key %}# Public ssh key entries to sign git commits
-
-{{ vars.git_email }} {{ key }}
-{% endif %}

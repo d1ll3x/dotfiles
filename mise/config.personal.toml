@@ -1,0 +1,7 @@
+# Personal profile: loaded on top of config.toml on machines bootstrapped with -E personal
+
+[settings]
+minimum_release_age_excludes = ["claude"]
+
+[tools]
+claude = "latest"
