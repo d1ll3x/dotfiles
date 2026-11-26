@@ -23,7 +23,6 @@ default = "~/.ssh/id_ed25519.pub"
 prompt = "Public key used to sign commits on this machine"
 
 [settings]
-trusted_config_paths = ["~/repos"]
 minimum_release_age_excludes = ["claude"]
 
 [tools]
@@ -38,8 +37,9 @@ eza = "latest"
 starship = "latest"
 jq = "latest"
 lazygit = "latest"
+neovim = "stable"
 github-cli = "latest"
-neovim ="stable"
+ghq = "latest"
 
 # AI Tools
 herdr = "latest"
