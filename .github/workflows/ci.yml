@@ -1,0 +1,27 @@
+name: ci
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  mise-install:
+    runs-on: ubuntu-latest
+    env:
+      # Same file real machines use as their global config
+      MISE_GLOBAL_CONFIG_FILE: ${{ github.workspace }}/mise/config.toml
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # avoids GitHub API rate limits
+    steps:
+      - uses: actions/checkout@v7
+
+      # Runs `mise install`: fails on a missing version or bad checksum
+      - uses: jdx/mise-action@v5
+
+      # Catches binaries that install but don't run (wrong arch/libc, renamed asset)
+      - name: Smoke test
+        run: |
+          for cmd in bat btop fd fzf rg eza zoxide starship jq lazygit nvim gh ghq node; do
+            mise exec -- "$cmd" --version >/dev/null || { echo "FAIL: $cmd"; exit 1; }
+          done
