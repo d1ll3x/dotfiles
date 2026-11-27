@@ -9,9 +9,10 @@ Works on Arch, Debian, Fedora and WSL2.
 
 ## 📦 Tool versions
 
-Tools in `mise/config*.toml` are pinned to exact versions and kept up to date by
-[Renovate](https://docs.renovatebot.com/modules/manager/mise/) (`.github/renovate.json5`).
-Fast-moving AI CLIs (`claude`, `copilot`) stay on `latest`.
+All tools are version controlled by [Renovate](https://docs.renovatebot.com/modules/manager/mise/)
+(`.github/renovate.json5`), except AI tools (`claude`, `copilot`): they release too rapidly, so they
+stay on `latest` and mise updates them automatically, after updating itself.
+`mise/mise.lock` locks the exact versions and checksums of the pinned tools.
 
 ## 🧩 How it works
  
@@ -75,6 +76,7 @@ If no terminal was available for the git questions, run `bash ~/.config/mise/scr
 ├── install.sh                #   new machine: curl + mise + bootstrap
 ├── mise/                     #   global mise config, linked as ~/.config/mise
 │   ├── config.toml           #   every machine: settings + tools
+│   ├── mise.lock             #   locked versions + checksums of config.toml
 │   ├── conf.d/
 │   │   ├── bootstrap.toml    #   host packages, login shell, hooks
 │   │   └── dotfiles.toml     #   app groups + edits to ~/.ssh/config and ~/.zshenv
@@ -99,7 +101,7 @@ Each app folder holds the app's files flat. mise links them, file by file, into 
 | Add a file to an existing app | `mise dot add --group nvim ~/.config/nvim/lua/plugins/foo.lua` |
 | Add a new app | `mkdir <repo>/foo`, add `foo = { target = "~/.config/foo" }` to `mise/conf.d/dotfiles.toml`, then `mise dot add --group foo ~/.config/foo/config` |
 | Add a tool for every machine | `mise use -g --pin <tool>` (writes the exact version to `mise/config.toml`) |
-| Add a profile-only tool | add it with an exact version to `mise/config.<profile>.toml` |
+| Add a profile-only tool | add it to `mise/config.<profile>.toml` (exact version, or `latest` for AI tools) |
 | Update tool versions | merge the Renovate PRs, then `mise bootstrap --update` |
 | Update this machine | `mise bootstrap --update` |
 | See what's out of sync | `mise dot status` |

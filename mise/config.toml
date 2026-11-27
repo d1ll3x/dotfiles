@@ -1,6 +1,12 @@
 # Global mise config: ~/.config/mise is a link to this folder.
 [settings]
+# Auto-update: mise updates itself first, then every global tool on `latest`.
+# Exact pins are left alone: Renovate bumps those.
 self_update.auto = true
+tool_update.self_update_first = true
+tool_update.global_auto = true
+# Lock versions and checksums in mise.lock
+lockfile = true
 # dotfiles lives where ghq would place it
 dotfiles.root = "{{ env.HOME }}/projects/github.com/d1ll3x/dotfiles"
 
@@ -19,8 +25,6 @@ lazygit = "0.66.3"
 neovim = "0.12.6"
 github-cli = "2.106.0"
 ghq = "1.12.0"
-
-# AI Tools
 herdr = "0.9.5"
 
 # Runtime
