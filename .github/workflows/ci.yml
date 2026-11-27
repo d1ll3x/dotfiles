@@ -23,10 +23,15 @@ jobs:
       # that install but don't run: wrong arch/libc, renamed asset.
       - name: Smoke test
         run: |
+          checked=0
           for dir in $(mise bin-paths); do
             for bin in "$dir"/*; do
               [ -f "$bin" ] && [ -x "$bin" ] || continue
               mise exec -- timeout 10 "$bin" --version </dev/null >/dev/null 2>&1 \
                 || { echo "FAIL: $bin"; exit 1; }
+              echo "ok: ${bin##*/}"
+              checked=$((checked + 1))
             done
           done
+          # Guard against a vacuous pass if bin-paths ever comes back empty
+          [ "$checked" -gt 0 ] || { echo "FAIL: no binaries found"; exit 1; }
