@@ -7,6 +7,12 @@ Works on Arch, Debian, Fedora and WSL2.
 > packages with `sudo` and changes your login shell to zsh.
  
 
+## 📦 Tool versions
+
+Tools in `mise/config*.toml` are pinned to exact versions and kept up to date by
+[Renovate](https://docs.renovatebot.com/modules/manager/mise/) (`.github/renovate.json5`).
+Fast-moving AI CLIs (`claude`, `copilot`) stay on `latest`.
+
 ## 🧩 How it works
  
 - **mise config files.** `config.toml` holds only settings and tools. `bootstrap.toml` and `dotfiles.toml` live in `mise/conf.d/`, which mise loads automatically in alphabetical order.
@@ -15,8 +21,6 @@ Works on Arch, Debian, Fedora and WSL2.
     if missing. It runs before the dotfiles step, which edits `~/.ssh/config`.
   - `post-dotfiles` → `scripts/git-identity.sh`: writes the untracked git identity once.
   - `final` → `zsh -i -c true`: the first interactive start clones antidote and builds the zsh plugin bundle.
-- **Pinned tools.** Every tool in `mise/config*.toml` has an exact version. [Renovate](https://docs.renovatebot.com/modules/manager/mise/)
-  (`.github/renovate.json5`) opens PRs to bump them: minor and patch updates in one grouped PR, majors separately.
 - **Shell activation** of mise belongs in the tracked zsh config (`zsh/.zshrc`, e.g.
   `eval "$(mise activate zsh)"` with `~/.local/bin` on `PATH`).
 
