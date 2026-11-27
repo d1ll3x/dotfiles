@@ -22,6 +22,3 @@ alias df='df -h'
 alias vim='nvim'
 alias vi='nvim'
 alias nano='nvim'
-
-# update everything (mise/conf.d/tasks.toml)
-alias up='mise run update'

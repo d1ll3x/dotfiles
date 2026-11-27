@@ -2,7 +2,6 @@
 
 [tasks.update]
 description = "Update this machine: pull the dotfiles, apply them, install pinned tools"
-alias = "up"
 run = [
   # Skips distro packages: no sudo prompt
   "mise bootstrap --update --yes --skip packages",
