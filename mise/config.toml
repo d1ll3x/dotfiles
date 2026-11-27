@@ -24,4 +24,4 @@ ghq = "latest"
 herdr = "latest"
 
 # Runtime
-node = "26.13.0" # LTS - required by neovim
+node = "26.13.1" # LTS - required by neovim
