@@ -1,0 +1,11 @@
+# Global tasks: run from any directory with `mise run <task>`.
+
+[tasks.update]
+description = "Update this machine: pull the dotfiles, apply them, install pinned tools"
+run = [
+  # Skips distro packages: no sudo prompt
+  "mise bootstrap --update --yes --skip packages",
+  "zsh -i -c 'antidote update'",
+  # Restore, not sync: keeps the tracked lazy-lock.json unchanged
+  "nvim --headless '+Lazy! restore' +qa",
+]
