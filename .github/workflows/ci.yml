@@ -19,9 +19,14 @@ jobs:
       # Runs `mise install`: fails on a missing version or bad checksum
       - uses: jdx/mise-action@v5
 
-      # Catches binaries that install but don't run (wrong arch/libc, renamed asset)
+      # Runs every program mise installed (no tool list to maintain). Catches binaries
+      # that install but don't run: wrong arch/libc, renamed asset.
       - name: Smoke test
         run: |
-          for cmd in bat btop fd fzf rg eza zoxide starship jq lazygit nvim gh ghq node; do
-            mise exec -- "$cmd" --version >/dev/null || { echo "FAIL: $cmd"; exit 1; }
+          for dir in $(mise bin-paths); do
+            for bin in "$dir"/*; do
+              [ -f "$bin" ] && [ -x "$bin" ] || continue
+              mise exec -- timeout 10 "$bin" --version </dev/null >/dev/null 2>&1 \
+                || { echo "FAIL: $bin"; exit 1; }
+            done
           done
