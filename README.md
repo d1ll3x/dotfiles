@@ -13,6 +13,8 @@ All tools are version controlled by [Renovate](https://docs.renovatebot.com/modu
 (`.github/renovate.json5`), except AI tools (`claude`, `copilot`): they release too rapidly, so they
 stay on `latest` and mise updates them automatically, after updating itself.
 `mise/mise.lock` locks the exact versions and checksums of the pinned tools.
+Minor and patch bumps merge automatically once CI (`.github/workflows/ci.yml`) installs and runs every
+tool; majors wait for review.
 
 ## 🧩 How it works
  

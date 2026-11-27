@@ -3,13 +3,17 @@
   extends: ['config:recommended', ':semanticCommits', ':semanticCommitTypeAll(chore)'],
   branchPrefix: 'chore/',
   enabledManagers: ['mise'],
+  // Skip releases that get pulled right after publishing.
+  minimumReleaseAge: '3 days',
   packageRules: [
     {
-      // One PR for every minor/patch tool bump, majors stay separate.
+      // One PR for every minor/patch tool bump, merged once CI passes.
+      // Majors stay separate and manual.
       matchManagers: ['mise'],
       matchUpdateTypes: ['minor', 'patch'],
       groupName: 'mise tools',
       groupSlug: 'mise-tools',
+      automerge: true,
     },
   ],
 }
