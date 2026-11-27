@@ -6,22 +6,22 @@ dotfiles.root = "{{ env.HOME }}/projects/github.com/d1ll3x/dotfiles"
 
 [tools]
 # CLI Tools
-bat = "latest"
-btop = "latest"
-zoxide = "latest"
-fd = "latest"
-fzf = "latest"
-ripgrep = "latest"
-eza = "latest"
-starship = "latest"
-jq = "latest"
-lazygit = "latest"
-neovim = "stable"
-github-cli = "latest"
-ghq = "latest"
+bat = "0.26.1"
+btop = "1.4.8"
+zoxide = "0.10.0"
+fd = "10.5.2"
+fzf = "0.75.0"
+ripgrep = "16.0.0"
+eza = "0.23.5"
+starship = "1.27.0"
+jq = "1.8.2"
+lazygit = "0.66.3"
+neovim = "0.12.6"
+github-cli = "2.106.0"
+ghq = "1.12.0"
 
 # AI Tools
-herdr = "latest"
+herdr = "0.9.5"
 
 # Runtime
 node = "26.13.0" # LTS - required by neovim

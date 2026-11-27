@@ -4,4 +4,4 @@
 minimum_release_age_excludes = ["claude"]
 
 [tools]
-claude = "latest"
+claude = "2.1.332"

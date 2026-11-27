@@ -1,0 +1,17 @@
+{
+  $schema: 'https://docs.renovatebot.com/renovate-schema.json',
+  extends: ['config:recommended', ':semanticCommits', ':semanticCommitTypeAll(chore)'],
+  // Conventional Branch names (agents/docs/git.md): chore/<slug>
+  branchPrefix: 'chore/',
+  // Only the mise tool pins are managed; bootstrap packages come from the distro.
+  enabledManagers: ['mise'],
+  packageRules: [
+    {
+      // One PR for every minor/patch tool bump, majors stay separate.
+      matchManagers: ['mise'],
+      matchUpdateTypes: ['minor', 'patch'],
+      groupName: 'mise tools',
+      groupSlug: 'mise-tools',
+    },
+  ],
+}

@@ -15,6 +15,8 @@ Works on Arch, Debian, Fedora and WSL2.
     if missing. It runs before the dotfiles step, which edits `~/.ssh/config`.
   - `post-dotfiles` → `scripts/git-identity.sh`: writes the untracked git identity once.
   - `final` → `zsh -i -c true`: the first interactive start clones antidote and builds the zsh plugin bundle.
+- **Pinned tools.** Every tool in `mise/config*.toml` has an exact version. [Renovate](https://docs.renovatebot.com/modules/manager/mise/)
+  (`.github/renovate.json5`) opens PRs to bump them: minor and patch updates in one grouped PR, majors separately.
 - **Shell activation** of mise belongs in the tracked zsh config (`zsh/.zshrc`, e.g.
   `eval "$(mise activate zsh)"` with `~/.local/bin` on `PATH`).
 
@@ -65,6 +67,7 @@ If no terminal was available for the git questions, run `bash ~/.config/mise/scr
  
 ```text
 ~/projects/github.com/d1ll3x/dotfiles   # ghq layout
+├── .github/renovate.json5    #   Renovate: PRs that bump the pinned mise tools
 ├── install.sh                #   new machine: curl + mise + bootstrap
 ├── mise/                     #   global mise config, linked as ~/.config/mise
 │   ├── config.toml           #   every machine: settings + tools
@@ -91,8 +94,9 @@ Each app folder holds the app's files flat. mise links them, file by file, into 
 |---|---|
 | Add a file to an existing app | `mise dot add --group nvim ~/.config/nvim/lua/plugins/foo.lua` |
 | Add a new app | `mkdir <repo>/foo`, add `foo = { target = "~/.config/foo" }` to `mise/conf.d/dotfiles.toml`, then `mise dot add --group foo ~/.config/foo/config` |
-| Add a tool for every machine | `mise use -g <tool>` (writes to `mise/config.toml`) |
-| Add a profile-only tool | add it to `mise/config.<profile>.toml` |
+| Add a tool for every machine | `mise use -g --pin <tool>` (writes the exact version to `mise/config.toml`) |
+| Add a profile-only tool | add it with an exact version to `mise/config.<profile>.toml` |
+| Update tool versions | merge the Renovate PRs, then `mise bootstrap --update` |
 | Update this machine | `mise bootstrap --update` |
 | See what's out of sync | `mise dot status` |
  
