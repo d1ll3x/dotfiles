@@ -1,0 +1,18 @@
+# Global tasks: run from any directory with `mise run <task>`.
+
+[tasks.update]
+description = "Update this machine: dotfiles, mise, tools, zsh and nvim plugins"
+alias = "up"
+env = { DOTFILES = "{{ env.HOME }}/projects/github.com/d1ll3x/dotfiles" }
+run = [
+  # Pull the latest dotfiles (incl. merged Renovate bumps); stops on local commits.
+  "git -C \"$DOTFILES\" pull --ff-only --autostash",
+  "mise self-update --yes",
+  # Re-apply dotfiles + host packages, install the pinned versions from mise.lock.
+  "mise bootstrap --update",
+  # Tools on `latest` (claude, copilot).
+  "mise upgrade",
+  "zsh -i -c 'antidote update'",
+  # Match nvim/lazy-lock.json (restore, not sync, so the tracked lockfile stays unchanged).
+  "nvim --headless '+Lazy! restore' +qa",
+]

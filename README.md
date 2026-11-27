@@ -79,7 +79,8 @@ If no terminal was available for the git questions, run `bash ~/.config/mise/scr
 │   ├── mise.lock             #   locked versions + checksums of config.toml
 │   ├── conf.d/
 │   │   ├── bootstrap.toml    #   host packages, login shell, hooks
-│   │   └── dotfiles.toml     #   app groups + edits to ~/.ssh/config and ~/.zshenv
+│   │   ├── dotfiles.toml     #   app groups + edits to ~/.ssh/config and ~/.zshenv
+│   │   └── tasks.toml        #   global tasks, e.g. `mise run update`
 │   ├── config.personal.toml  #   personal tools (e.g. claude)
 │   ├── config.work.toml      #   work tools (e.g. GitHub Copilot CLI)
 │   └── scripts/              #   bootstrap hooks
@@ -102,8 +103,8 @@ Each app folder holds the app's files flat. mise links them, file by file, into 
 | Add a new app | `mkdir <repo>/foo`, add `foo = { target = "~/.config/foo" }` to `mise/conf.d/dotfiles.toml`, then `mise dot add --group foo ~/.config/foo/config` |
 | Add a tool for every machine | `mise use -g --pin <tool>` (writes the exact version to `mise/config.toml`) |
 | Add a profile-only tool | add it to `mise/config.<profile>.toml` (exact version, or `latest` for AI tools) |
-| Update tool versions | merge the Renovate PRs, then `mise bootstrap --update` |
-| Update this machine | `mise bootstrap --update` |
+| Update tool versions | merge the Renovate PRs, then `up` |
+| Update this machine | `up` (alias for `mise run update`, see `mise/conf.d/tasks.toml`) |
 | See what's out of sync | `mise dot status` |
  
 
