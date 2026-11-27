@@ -1,0 +1,15 @@
+{
+  $schema: 'https://docs.renovatebot.com/renovate-schema.json',
+  extends: ['config:recommended', ':semanticCommits', ':semanticCommitTypeAll(chore)'],
+  branchPrefix: 'chore/',
+  enabledManagers: ['mise'],
+  packageRules: [
+    {
+      // One PR for every minor/patch tool bump, majors stay separate.
+      matchManagers: ['mise'],
+      matchUpdateTypes: ['minor', 'patch'],
+      groupName: 'mise tools',
+      groupSlug: 'mise-tools',
+    },
+  ],
+}
