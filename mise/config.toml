@@ -28,4 +28,4 @@ ghq = "1.12.0"
 herdr = "0.9.5"
 
 # Runtime
-node = "26.13.0" # LTS - required by neovim
+node = "26.13.1" # LTS - required by neovim
